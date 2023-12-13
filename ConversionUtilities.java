@@ -1,4 +1,5 @@
 import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Base64;
 
 public class ConversionUtilities {
@@ -84,22 +85,14 @@ public class ConversionUtilities {
     }
 
     public static String generateBinaryStringOfXLength(Integer desiredStringLength) {
-        StringBuilder binarykeyBuilder = new StringBuilder();
-        int max = 10000;
-        int min = 1;
-        int range = max - min + 1;
+        SecureRandom secureRandom = new SecureRandom();
+        StringBuilder binaryStringBuilder = new StringBuilder();
 
         for (int i = 0; i < desiredStringLength; i++) {
-            int randomInt = (int)(Math.random() * range) + min;
-            int modRandomInt = (randomInt % 2);
-            
-            if (modRandomInt == 0) {
-                binarykeyBuilder.append("0");
-            } else {
-                binarykeyBuilder.append("1");
-            }
+            int randomBit = secureRandom.nextInt(2);
+            binaryStringBuilder.append(randomBit);
         }
 
-        return binarykeyBuilder.toString();
+        return binaryStringBuilder.toString();
     }
 }
