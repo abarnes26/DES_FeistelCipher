@@ -15,16 +15,11 @@ public class KeyExpander {
         // 1 - initial permutation of the inputkey (PC-1)
         String permutedKey = handleKeyPermutation(initialKey, PermutationTables.keyPermutationIndexesPC1);        
 
-
         for (Integer i = 1; i < 17; i++) {
             permutedKey = handleKeyRotation(permutedKey, i);
 
             // 4 - After the rotation, each of the C and D halves is subjected to a compression permutation called PC-2 rearranges the bits of each half according to another fixed permutation table. The result is a 48-bit subkey for that round.
-            String roundKey = handleKeyPermutation(permutedKey, PermutationTables.keyPermutationIndexesPC2);
-
-            System.out.println(roundKey);               
-            System.out.println(roundKey.length());            
-         
+            String roundKey = handleKeyPermutation(permutedKey, PermutationTables.keyPermutationIndexesPC2);         
             roundKeySet.add(roundKey);
         }
 

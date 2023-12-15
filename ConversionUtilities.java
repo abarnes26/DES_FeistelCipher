@@ -1,6 +1,8 @@
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class ConversionUtilities {
 
@@ -15,6 +17,13 @@ public class ConversionUtilities {
         return result.toString();
 
         // return Base64.getEncoder().encodeToString(utf8Input.getBytes());
+    }
+
+    public static String convertUTF8ToHex(String input) {
+        String inputBinary = convertUTF8ToBinary(input);
+        String inputHex = convertBinaryToHex(inputBinary);
+
+        return inputHex;
     }
 
     public static String convertBinaryToHex(String binaryInput) {
@@ -84,6 +93,19 @@ public class ConversionUtilities {
         return result.toString();
     }
 
+    public static String padInput(String input) {
+        // We're using the PKCS#7 padding method here
+        Integer bytesToPad = ((((input.length() % 16) - 16) / 2) * -1);
+
+        if (bytesToPad != 8) {
+            for (Integer i = 0; i < bytesToPad; i++) {
+                input += "0" + String.valueOf(bytesToPad);
+            }
+        }
+
+        return input;
+    }
+
     public static String generateBinaryStringOfXLength(Integer desiredStringLength) {
         SecureRandom secureRandom = new SecureRandom();
         StringBuilder binaryStringBuilder = new StringBuilder();
@@ -94,5 +116,37 @@ public class ConversionUtilities {
         }
 
         return binaryStringBuilder.toString();
+    }
+
+    public static List<String> chunkInput64Bit(String inputBinary) {
+        List<String> input64BitChunks = new ArrayList<>();
+        Integer startingIndex = 0;
+        Integer endingIndex = 64;
+
+        for (Integer i = 0; i < inputBinary.length() / 64; i++) {
+            String chunk = inputBinary.substring(startingIndex, endingIndex);
+            input64BitChunks.add(chunk);
+
+            startingIndex += 64;            
+            endingIndex += 64;
+        }
+
+        return input64BitChunks;
+    }
+
+    public static List<String> handleCipherBlockChaining(List<String> input64BitChunks, String initializationVector) {
+        List<String> cipherBlocks = new ArrayList<>();
+
+        for (Integer i = 0; i < input64BitChunks.size(); i++) {
+            if (i != 0) {
+                String cipherBlock = xorTwoBinaryStrings(input64BitChunks.get(i), cipherBlocks.get(i - 1));
+                cipherBlocks.add(cipherBlock);
+            } else {
+                String cipherBlock = xorTwoBinaryStrings(input64BitChunks.get(i),  initializationVector);
+                cipherBlocks.add(cipherBlock);
+            }
+        }
+
+        return cipherBlocks;
     }
 }
