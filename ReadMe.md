@@ -16,7 +16,7 @@ Input 64 bits, output 64 bits
 - Final Permutation of output (inverse of the first)
 
 ### Key Expantion
-- Expand key into 16 unique keys (round)
+- Expand 56 bit key into 16 unique 48 bit keys (i.e. "round keys")
 - Each key is 48 bits and is unique to it's position.  
 I.e. when encrypting you use 1 through 16 and when decrypting you start at 16 and move to 1
 
