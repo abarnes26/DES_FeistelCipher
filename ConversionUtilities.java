@@ -2,7 +2,9 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConversionUtilities {
 
@@ -149,4 +151,50 @@ public class ConversionUtilities {
 
         return cipherBlocks;
     }
+
+    public static Map<String, String> binaryStringToUTFStringTable = new HashMap<String, String>() {{
+        put("00", "0");
+        put("01", "1");
+        put("10", "2");
+        put("11", "3");
+        put("0000", "0");
+        put("0001", "1");
+        put("0010", "2");
+        put("0011", "3");
+        put("0100", "4");
+        put("0101", "5");
+        put("0110", "6");
+        put("0111", "7");
+        put("1000", "8");
+        put("1001", "9");
+        put("1010", "10");
+        put("1011", "11");
+        put("1100", "12");
+        put("1101", "13");
+        put("1110", "14");
+        put("1111", "15");
+    }};
+
+    public static Map<String, String> UTFStringToBinaryTable = new HashMap<String, String>() {{
+        put("0", "00");
+        put("1", "01");
+        put("2", "10");
+        put("3", "11");
+        put("0", "0000");
+        put("1", "0001");
+        put("2", "0010");
+        put("3", "0011");
+        put("4", "0100");
+        put("5", "0101");
+        put("6", "0110");
+        put("7", "0111");
+        put("8", "1000");
+        put("9", "1001");
+        put("10", "1010");
+        put("11", "1011");
+        put("12", "1100");
+        put("13", "1101");
+        put("14", "1110");
+        put("15", "1111");
+    }};
 }

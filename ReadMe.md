@@ -1,15 +1,15 @@
-#Overview
+# Overview
 
 Studying Cryptography 1 Course hosted on Coursera
 https://www.coursera.org/learn/crypto/home/info
 
 Creating Ciphers in Java to better understand the fundamentals
 
-##What
+## What
 DES acts on 64 bit blocks
 Input 64 bits, output 64 bits
 
-##How
+## How
 - Initial Permutation of input
 - Iterate through plain text 16 times
 - Split the input in half (L, R) each time and follow encryption / decryption formulas

@@ -9,45 +9,19 @@ public class KeyExpander {
     private static List<Integer> dRounds1 = Arrays.asList(1);        
     private static List<Integer> dRounds2 = Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
     
-    public static List<String> expandInitialKey(String initialKey) {
+    public static List<String> expandInitialKey(String permutedKey) {
         List<String> roundKeySet = new ArrayList<>();
 
         // 1 - initial permutation of the inputkey (PC-1)
-        String permutedKey = handleKeyPermutation(initialKey, PermutationTables.keyPermutationIndexesPC1);        
-
         for (Integer i = 1; i < 17; i++) {
             permutedKey = handleKeyRotation(permutedKey, i);
 
             // 4 - After the rotation, each of the C and D halves is subjected to a compression permutation called PC-2 rearranges the bits of each half according to another fixed permutation table. The result is a 48-bit subkey for that round.
-            String roundKey = handleKeyPermutation(permutedKey, PermutationTables.keyPermutationIndexesPC2);         
+            String roundKey = PermutationTables.handlePermutation(permutedKey, PermutationTables.keyPermutationIndexesPC2);         
             roundKeySet.add(roundKey);
         }
 
         return roundKeySet;
-    }
-
-    private static String handleKeyPermutation(String keyInput, List<Integer> permutationTable) {
-        String permutedKey = "";
-
-        List<String> permutedKeyArray = new ArrayList<String>();
-        List<String> keyInputStringArray = new ArrayList<String>();
-
-        char[] keyInputChars = keyInput.toCharArray();
-
-        for (char keyInputChar : keyInputChars) {
-            keyInputStringArray.add(String.valueOf(keyInputChar));
-        }
-
-        for (Integer permutationIndex : permutationTable) {
-            permutationIndex -= 1;
-            permutedKeyArray.add(String.valueOf(keyInputStringArray.get(permutationIndex)));
-        }
-
-        for (String keyCharacter : permutedKeyArray) {
-            permutedKey += keyCharacter;
-        }
-
-        return permutedKey;
     }
 
     private static String handleKeyRotation(String permutedKey, Integer currentRound) {
