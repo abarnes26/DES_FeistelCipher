@@ -1,8 +1,9 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class PermutationTables {
-
+    // ----IMPORTANT-----
     // indexes in permutation tables are indexed at "1" insted of "0"
     public static List<Integer> keyPermutationIndexesPC1 = Arrays.asList(
         57, 49, 41, 33, 25, 17, 9,
@@ -25,4 +26,53 @@ public class PermutationTables {
         44,  49,  39,  56,  34,  53,
         46,  42,  50,  36,  29,  32
     );
+
+    public static List<Integer> functionExpansionTable = Arrays.asList(
+        32,  1,  2,  3,  4,  5,
+        4,  5,  6,  7,  8,  9,
+        8,  9, 10, 11, 12, 13,
+       12, 13, 14, 15, 16, 17,
+       16, 17, 18, 19, 20, 21,
+       20, 21, 22, 23, 24, 25,
+       24, 25, 26, 27, 28, 29,
+       28, 29, 30, 31, 32,  1
+    );
+
+    public static List<Integer> functionStraightPBox = Arrays.asList(
+        16, 7, 20, 21,
+        29, 12, 28, 17,
+        1,  15, 23, 26,
+        5,  18, 31, 10,
+        2,  8,  24, 14,
+        32, 27, 3,  9,
+        19, 13, 30, 6,
+        22, 11, 4,  25
+    );
+
+    // the bit in position 1 moves to position 16
+
+
+    public static String handlePermutation(String input, List<Integer> permutationTable) {
+        String permutedInput = "";
+
+        List<String> permutedInputArray = new ArrayList<String>();
+        List<String> inputStringArray = new ArrayList<String>();
+
+        char[] inputChars = input.toCharArray();
+
+        for (char inputChar : inputChars) {
+            inputStringArray.add(String.valueOf(inputChar));
+        }
+
+        for (Integer permutationIndex : permutationTable) {
+            // permutationIndex -= 1;
+            permutedInputArray.add(String.valueOf(inputStringArray.get(permutationIndex - 1)));
+        }
+
+        for (String keyCharacter : permutedInputArray) {
+            permutedInput += keyCharacter;
+        }
+
+        return permutedInput;
+    }
 }
