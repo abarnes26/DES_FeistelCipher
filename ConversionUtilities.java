@@ -140,6 +140,7 @@ public class ConversionUtilities {
         List<String> cipherBlocks = new ArrayList<>();
 
         for (Integer i = 0; i < input64BitChunks.size(); i++) {
+
             if (i != 0) {
                 String cipherBlock = xorTwoBinaryStrings(input64BitChunks.get(i), cipherBlocks.get(i - 1));
                 cipherBlocks.add(cipherBlock);
@@ -150,6 +151,23 @@ public class ConversionUtilities {
         }
 
         return cipherBlocks;
+    }
+
+    public static String handleCipherBlockUnChaining(List<String> decrypted64BitBlocks, String initializationVector) {
+        StringBuilder decryptedUnchainedBlocks = new StringBuilder();
+        Integer finalBlockIndex = (decrypted64BitBlocks.size() - 1);
+
+        for (Integer i = finalBlockIndex; i > -1; i--) {
+            if (i != 0) {
+                String cipherBlock = xorTwoBinaryStrings(decrypted64BitBlocks.get(i), decrypted64BitBlocks.get(i - 1));
+                decryptedUnchainedBlocks.insert(0, cipherBlock);
+            } else {
+                String cipherBlock = xorTwoBinaryStrings(decrypted64BitBlocks.get(i),  initializationVector);
+                decryptedUnchainedBlocks.insert(0, cipherBlock);
+            }
+        }
+
+        return decryptedUnchainedBlocks.toString();
     }
 
     public static Map<String, String> binaryStringToUTFStringTable = new HashMap<String, String>() {{

@@ -49,30 +49,14 @@ public class PermutationTables {
         22, 11, 4,  25
     );
 
-    // the bit in position 1 moves to position 16
-
-
     public static String handlePermutation(String input, List<Integer> permutationTable) {
-        String permutedInput = "";
-
-        List<String> permutedInputArray = new ArrayList<String>();
-        List<String> inputStringArray = new ArrayList<String>();
-
+        StringBuilder permutedInput = new StringBuilder();
         char[] inputChars = input.toCharArray();
 
-        for (char inputChar : inputChars) {
-            inputStringArray.add(String.valueOf(inputChar));
-        }
-
         for (Integer permutationIndex : permutationTable) {
-            // permutationIndex -= 1;
-            permutedInputArray.add(String.valueOf(inputStringArray.get(permutationIndex - 1)));
+            permutedInput.append(inputChars[permutationIndex - 1]);
         }
 
-        for (String keyCharacter : permutedInputArray) {
-            permutedInput += keyCharacter;
-        }
-
-        return permutedInput;
+        return permutedInput.toString();
     }
 }

@@ -7,14 +7,12 @@ import java.util.AbstractMap;
 public class Encrypter {
 
     public static void main(String[] args) {
-        String plainText = "Here is a somewhat long string to test with.  I was going to use Lorem Ipsum but I want it to be ovious when the decrypting works.  Much more exciting to read my own message coming out of the decrypter instead of Lorem Ipsum. Without this additional sentence it came out to exactly 64 bits!";
-        // input 64 bit key
+        String plainText = "Testing with a long string to see if it can appropriately handle chaining";
 
         String initialKey = "1010101101110011101001011000010011010011010010101110110011111101";    
-        // String initializationVector = ConversionUtilities.generateBinaryStringOfXLength(64);
-        String initializationVector = "0011001110011110011010011110101101001101010111110100100010010101";
+        String initializationVector = ConversionUtilities.generateBinaryStringOfXLength(64);
 
-        String permutedKey = PermutationTables.handlePermutation(initialKey, PermutationTables.keyPermutationIndexesPC1);        
+        String permutedKey = PermutationTables.handlePermutation(initialKey, PermutationTables.keyPermutationIndexesPC1);    
         List<String> roundKeys = KeyExpander.expandInitialKey(permutedKey);
         String inputHex = ConversionUtilities.convertUTF8ToHex(plainText); 
 
@@ -26,10 +24,10 @@ public class Encrypter {
         List<String> input64BitChunks = ConversionUtilities.chunkInput64Bit(paddedInputBinary);
 
         // Employ Cipher Block Chaining (CBC)
-        // List<String> cbcBlocks = ConversionUtilities.handleCipherBlockChaining(input64BitChunks, initializationVector);
+        List<String> cbcBlocks = ConversionUtilities.handleCipherBlockChaining(input64BitChunks, initializationVector);
         StringBuilder encryptedOutputBinary = new StringBuilder();
 
-        for (String cbcBlock : input64BitChunks) {
+        for (String cbcBlock : cbcBlocks) {
             String l = cbcBlock.substring(0,32);
             String r = cbcBlock.substring(32, 64);
 
@@ -47,7 +45,10 @@ public class Encrypter {
         }
 
         String encryptedOutputHex = ConversionUtilities.convertBinaryToHex(encryptedOutputBinary.toString());
+        String initializationVectorHex = ConversionUtilities.convertBinaryToHex(initializationVector);
+        System.out.println(initializationVectorHex);
+        String encryptedOutputHexFinal = (initializationVectorHex + encryptedOutputHex);
 
-        System.out.println(encryptedOutputHex);
+        System.out.println(encryptedOutputHexFinal);
     }
 }
