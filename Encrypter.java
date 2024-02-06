@@ -1,13 +1,9 @@
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
-import java.util.AbstractMap;
 
 public class Encrypter {
 
     public static void main(String[] args) {
-        String plainText = "Testing with a long string to see if it can appropriately handle chaining";
+        String plainText = "If the length of the original data is an integer multiple of the block size B, then an extra block of bytes with value B is added. This is necessary so the deciphering algorithm can determine with certainty whether the last byte of the last block is a pad byte indicating the number of padding bytes added or part of the plaintext message";
 
         String initialKey = "1010101101110011101001011000010011010011010010101110110011111101";    
         String initializationVector = ConversionUtilities.generateBinaryStringOfXLength(64);
@@ -46,7 +42,6 @@ public class Encrypter {
 
         String encryptedOutputHex = ConversionUtilities.convertBinaryToHex(encryptedOutputBinary.toString());
         String initializationVectorHex = ConversionUtilities.convertBinaryToHex(initializationVector);
-        System.out.println(initializationVectorHex);
         String encryptedOutputHexFinal = (initializationVectorHex + encryptedOutputHex);
 
         System.out.println(encryptedOutputHexFinal);

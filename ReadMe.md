@@ -53,7 +53,7 @@ For plain text inputs that are greater than 64 bits in length, the following wil
     e.g. - | DD DD DD DD DD DD DD DD | DD DD DD DD 04 04 04 04 |
 - The 64 bit chunks are then XORed with it's predecessor in the series.
 - The first 64 bit chunk will be XORed with a 64 bit (pseudo) randomly generated initialization vector
-- Each chained chunk is then processed through the Feisten Network
+- Each chained chunk is then processed through the Feistel Network
 
 
 ### Initialization Vector (IV)
