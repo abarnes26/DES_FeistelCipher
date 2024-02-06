@@ -15,7 +15,7 @@ Input 64 bits, output 64 bits
 - Split the input in half (L, R) each time and follow encryption / decryption formulas
 - Final Permutation of output (inverse of the first)
 
-### Key Expantion
+### Key Expansion
 - Expand 56 bit key into 16 unique 48 bit keys (i.e. "round keys")
 - Each key is 48 bits and is unique to it's position.  
 I.e. when encrypting you use 1 through 16 and when decrypting you start at 16 and move to 1
@@ -45,6 +45,20 @@ Maps 32 bits to 32 bits
 5. Concatenate the 6 collections into a 32 bit string
 6. Feed the 32 bit string into another permutation (maps the bits around)
 7. Output the 32 bits
+
+### Cipher Block Chaining
+For plain text inputs that are greater than 64 bits in length, the following will occur during encryption:
+- The input is broken into 64 bit chunks
+- The final chunk is "padded" using hex to indicate the remaining empty bits using the PKCS#7 format
+    e.g. - | DD DD DD DD DD DD DD DD | DD DD DD DD 04 04 04 04 |
+- The 64 bit chunks are then XORed with it's predecessor in the series.
+- The first 64 bit chunk will be XORed with a 64 bit (pseudo) randomly generated initialization vector
+- Each chained chunk is then processed through the Feisten Network
+
+
+### Initialization Vector (IV)
+- The initialization vector should be a (pseudo) randomly generated 64 bit string
+- The IV should be converted to Hex and prepended to the final encrypted string for use in unchaining during decryption.
 
 
 
